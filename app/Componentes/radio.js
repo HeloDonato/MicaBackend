@@ -8,7 +8,7 @@ const MyComponent = ({valor, onChange}) => {
     setChecked(newValue);
     onChange(newValue);
   }
-
+  
   return (
     <View style={{flexDirection:'row', justifyContent:'space-between', backgroundColor:'fff'}}>
       <View style={{flexDirection:'row'}}>

@@ -8,10 +8,11 @@ import Radio2 from '../Componentes/radio2';
 import Salvar from '../Componentes/salvar';
 import 'react-native-gesture-handler';
 import { Picker } from 'react-native';
+import RegistroService from '../Services/RegistroService';
 
 let camera = Camera
 export default function TelaCamera({navigation}){
-  const [formValues, setState] = useState({
+  const [formValues, setFormValues] = useState({
     valor: '0',
     tipo: '0',
     descricao: '',
@@ -27,11 +28,15 @@ export default function TelaCamera({navigation}){
   }
 
   const setValue = (valor, name) => {
-    setState(prevState => ({
+    setFormValues(prevState => ({
       ...prevState,
       [name]: valor
     }))
   }
+
+  const adicionarTarefa = () => {
+    RegistroService.adicionar(formValues);
+  };
   
   const [startCamera, setStartCamera] = React.useState(false)
   const [cameraType, setCameraType] = React.useState(Camera.Constants.Type.back)
@@ -181,7 +186,7 @@ export default function TelaCamera({navigation}){
               />
             </View>        
             <View style={Estilo.tipoOp}>
-              <Radio valor="3" onChange={(valor)=> setValue(valor, 'tipo')}></Radio>
+              <Radio valor="1" onChange={(valor)=> setValue(valor, 'tipo')}></Radio>
             </View>
             <View style={{width: '100%', alignSelf:'center'}}>
               <View style={{alignItems:'center', paddingBottom: 10}}>
@@ -236,7 +241,7 @@ export default function TelaCamera({navigation}){
                 <Text style={Estilo.texto2}> Anexar comprovante</Text>
               </TouchableOpacity>
             </View>
-            <TouchableOpacity onPress={()=>navigation.navigate('Home')}>
+            <TouchableOpacity onPress={() => adicionarTarefa()}>
               <Salvar/>
             </TouchableOpacity>
           </ScrollView>
