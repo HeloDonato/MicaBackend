@@ -1,21 +1,27 @@
 import { StatusBar } from 'expo-status-bar';
-import React, {useState} from 'react';
+import React, {useState,useContext} from 'react';
 import { SafeAreaView, Image, View, TextInput, Text, TouchableWithoutFeedback, TouchableOpacity, ScrollView} from 'react-native';
 import Estilo from '../Estilos/estilos';
 import 'react-native-gesture-handler';
-
-import Parse from "parse/react-native.js";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AuthContext from '../Providers/AuthProvider';
 
 
 export default function TelaLogin({navigation}){
-
+  const{cadastrar} = useContext(AuthContext);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [lastname, setLastname] = useState("");
   const [password, setPassword] = useState("");
 
-  
+  const handleCadastrar = ()=>{
+    cadastrar({
+      email: email,
+      senha: password,
+      nome: username,
+      sobrenome:lastname 
+    });
+  };
+
   return(
     <SafeAreaView style={Estilo.containerHome}>
       <StatusBar backgroundColor="#fff" StatusBarStyle="dark-content"/>
@@ -56,7 +62,7 @@ export default function TelaLogin({navigation}){
             onChangeText={(text) => setPassword(text)}
           />
           <View>
-            <TouchableWithoutFeedback onPress={()=>navigation.navigate("Home")}>
+            <TouchableWithoutFeedback onPress={()=>handleCadastrar()}>
               <View style={[Estilo.botaoLogin, {marginBottom: 20}]}>
                 <Text style={Estilo.textoLogin}>Cadastrar</Text>
               </View>

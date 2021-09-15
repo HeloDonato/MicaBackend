@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect} from 'react';
-import {auth} from '../firebaseConfig';
+import {auth, db} from '../firebaseConfig';
 
 const AuthContext = createContext({});
 
@@ -18,6 +18,16 @@ export const AuthProvider = ({children}) => {
             console.log(credenciais.user);
     }
 
+    const cadastrar = async ({email, senha, nome, sobrenome}) => {
+        await auth.createUserWithEmailAndPassword(email, senha);
+        await entrar(email, senha);
+        await auth.currentUser.updateProfile({
+            displayName: nome
+        });
+        db.ref(`usuarios/${auth.currentUser.uid}`)
+            .update({sobrenome:sobrenome});
+    }
+
     const sair = () => {
         auth.signOut();
         setUsuario(null);
@@ -25,7 +35,7 @@ export const AuthProvider = ({children}) => {
 
     return (
         <AuthContext.Provider value={{
-            entrar, sair, usuario
+            entrar, sair, cadastrar, usuario
         }}>
             {children}
         </AuthContext.Provider>

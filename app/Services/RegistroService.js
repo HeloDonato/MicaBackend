@@ -1,5 +1,4 @@
 import {db, auth} from '../firebaseConfig';
-const endpoint = 'registros';
 
 export default{
     /*async listar(callback){
@@ -9,9 +8,10 @@ export default{
                 callback(dados);
         });
     },*/
-    adicionar(registro){
+    adicionar({data, ...registro}){
+        console.log(registro);
         db.ref(`usuarios/${auth.currentUser.uid}/registros/`)
-            .push(registro);
+            .push({...registro, data:data.toUTCString()});
     },/*
     removerTarefa(id) {
         db.ref(`usuarios/${auth.currentUser.uid}/tarefas/`)

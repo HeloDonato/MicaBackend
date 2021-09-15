@@ -7,25 +7,24 @@ import Radio from '../Componentes/radio';
 import Radio2 from '../Componentes/radio2';
 import Salvar from '../Componentes/salvar';
 import 'react-native-gesture-handler';
-import { Picker } from 'react-native';
+import { Picker} from 'react-native';
 import RegistroService from '../Services/RegistroService';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { SimpleLineIcons } from '@expo/vector-icons'; 
+
 
 let camera = Camera
 export default function TelaCamera({navigation}){
   const [formValues, setFormValues] = useState({
-    valor: '0',
-    tipo: '0',
+    valor: '',
+    tipo: '1',
     descricao: '',
-    data: '',
+    data: new Date(),
     destino: '0'
   });
 
-  const [selectedCategoria, setSelectedCategoria] = useState();
 
-  const handleChange = (env, name) => {
-    const valor = env.target.value;
-    setValue(valor, name)
-  }
+  const [selectedCategoria, setSelectedCategoria] = useState();
 
   const setValue = (valor, name) => {
     setFormValues(prevState => ({
@@ -36,6 +35,20 @@ export default function TelaCamera({navigation}){
 
   const adicionarTarefa = () => {
     RegistroService.adicionar(formValues);
+  };
+
+  const [show, setShow] = useState(false);
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShow(Platform.OS === 'ios');
+    setFormValues({...formValues, data:currentDate});
+    //console.log(selectedDate);
+  };
+
+
+  const showDatepicker = () => {
+    setShow(true);
   };
   
   const [startCamera, setStartCamera] = React.useState(false)
@@ -182,9 +195,10 @@ export default function TelaCamera({navigation}){
                 style={Estilo.input}
                 placeholder="Digite o valor..."
                 keyboardType="numeric" 
-                onChange={(env)=> handleChange(env, 'valor') }
+                value = {formValues.valor}
+                onChangeText={(text)=> setFormValues({...formValues, valor:text})}
               />
-            </View>        
+            </View>     
             <View style={Estilo.tipoOp}>
               <Radio valor="1" onChange={(valor)=> setValue(valor, 'tipo')}></Radio>
             </View>
@@ -193,16 +207,30 @@ export default function TelaCamera({navigation}){
                 <TextInput
                   style={Estilo.input2}
                   placeholder="Descrição"
-                  onChange={(env)=> handleChange(env, 'descricao')}
+                  value = {formValues.descricao}
+                  onChangeText ={(text)=> setFormValues({...formValues, descricao:text})}
                 />
               </View>
               <View style={{alignItems:'center', paddingBottom: 10}}>
-                <TextInput
-                  style={Estilo.input2}
-                  placeholder="Data"
-                  keyboardType="numeric"
-                  onChange={(env)=> handleChange(env, 'data')}
-                />
+                <TouchableOpacity onPress={showDatepicker}>
+                  <View style={Estilo.searchSection}>
+                    <Text>
+                      {formValues.data && formValues.data?.toLocaleDateString('pt-BR')}
+                    </Text>
+                    <SimpleLineIcons style={Estilo.searchIcon} name="calendar" size={24} color="gray"/>
+                  </View>
+                </TouchableOpacity>
+                
+                {show && (
+                  <DateTimePicker
+                    testID="dateTimePicker"
+                    value={formValues.data}
+                    mode='date'
+                    is24Hour={true}
+                    display="default"
+                    onChange={onChange}
+                  />
+                )}
               </View>
               <View style={{paddingBottom: 20}}>
                 <Text style={Estilo.texto2}>Selecione a categoria do registro:</Text>

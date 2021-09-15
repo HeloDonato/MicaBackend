@@ -403,5 +403,17 @@ export default StyleSheet.create({
       fontSize: 20,
       borderRadius: 5,
       marginTop:10
-    }
+    },
+    searchSection: {
+      width: '100%',
+      flexDirection: 'row',
+      justifyContent: 'flex-end',
+      alignItems: 'center',
+      backgroundColor: '#fff',
+      height: 46,
+      borderRadius: 5,
+    },
+    searchIcon: {
+        padding: 10,
+    },
   });
