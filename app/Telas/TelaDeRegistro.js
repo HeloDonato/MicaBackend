@@ -1,17 +1,21 @@
 import {StatusBar} from 'expo-status-bar'
 import React, {useState} from 'react'
-import {StyleSheet, Text, View, Alert, Image, SafeAreaView, TextInput, TouchableOpacity, ScrollView, ImageBackground, Select} from 'react-native'
+import {StyleSheet, Text, View, Alert, Image, SafeAreaView, TextInput, TouchableOpacity, ScrollView, ImageBackground} from 'react-native'
 import {Camera} from 'expo-camera';
 import Estilo from '../Estilos/estilos'
 import Radio from '../Componentes/radio';
 import Radio2 from '../Componentes/radio2';
 import Salvar from '../Componentes/salvar';
 import 'react-native-gesture-handler';
-import { Picker} from 'react-native';
 import RegistroService from '../Services/RegistroService';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { SimpleLineIcons } from '@expo/vector-icons'; 
-
+import { Picker } from '@react-native-picker/picker';
+import DropDown, {
+  Select,
+  Option,
+  OptionList,
+} from 'react-native-selectme';
 
 let camera = Camera
 export default function TelaCamera({navigation}){
@@ -214,13 +218,12 @@ export default function TelaCamera({navigation}){
               <View style={{alignItems:'center', paddingBottom: 10}}>
                 <TouchableOpacity onPress={showDatepicker}>
                   <View style={Estilo.searchSection}>
-                    <Text>
+                    <Text style={{fontSize: 25, paddingRight:'58%'}}>
                       {formValues.data && formValues.data?.toLocaleDateString('pt-BR')}
                     </Text>
                     <SimpleLineIcons style={Estilo.searchIcon} name="calendar" size={24} color="gray"/>
                   </View>
                 </TouchableOpacity>
-                
                 {show && (
                   <DateTimePicker
                     testID="dateTimePicker"
@@ -247,6 +250,27 @@ export default function TelaCamera({navigation}){
                     <Picker.Item label="Lazer" value="lazer" />
                     <Picker.Item label="Aluguel" value="aluguel" />
                   </Picker>
+                  <Select
+            width={250}
+            ref="SELECT1"
+            optionListRef={this._getOptionList.bind(this)}
+            defaultValue="Select a Province in Canada ..."
+            onSelect={this._canada.bind(this)}>
+            <Option value = {{id : "alberta"}}>Alberta</Option>
+            <Option>British Columbia</Option>
+            <Option>Manitoba</Option>
+            <Option>New Brunswick</Option>
+            <Option>Newfoundland and Labrador</Option>
+            <Option>Northwest Territories</Option>
+            <Option>Nova Scotia</Option>
+            <Option>Nunavut</Option>
+            <Option>Ontario</Option>
+            <Option>Prince Edward Island</Option>
+            <Option>Quebec</Option>
+            <Option>Saskatchewan</Option>
+            <Option>Yukon</Option>
+          </Select>
+
                 </View>
               </View>
             </View>

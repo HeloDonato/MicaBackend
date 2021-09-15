@@ -14,8 +14,7 @@ export const AuthProvider = ({children}) => {
 
     const entrar = async (usuario, senha) => {
         const credenciais = await auth.signInWithEmailAndPassword(usuario, senha);
-            setUsuario(credenciais.user),
-            console.log(credenciais.user);
+            setUsuario(credenciais.user)
     }
 
     const cadastrar = async ({email, senha, nome, sobrenome}) => {
