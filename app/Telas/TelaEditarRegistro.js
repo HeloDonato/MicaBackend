@@ -1,5 +1,5 @@
-import { StatusBar } from 'expo-status-bar';
-import React, {useState} from 'react';
+import { setStatusBarNetworkActivityIndicatorVisible, StatusBar } from 'expo-status-bar';
+import React, {useEffect, useState} from 'react';
 import { SafeAreaView,Text, View, Image, TextInput, TouchableOpacity, ScrollView} from 'react-native';
 import Estilo from '../Estilos/estilos'
 import Radio from '../Componentes/radio';
@@ -7,32 +7,37 @@ import Radio2 from '../Componentes/radio2';
 import Salvar from '../Componentes/salvar';
 import 'react-native-gesture-handler';
 import { Picker } from 'react-native';
+import RegistroService from '../Services/RegistroService';
 
-export default function TelaDeRegistro({navigation}){
-  const [formValues, setState] = useState({
-    valor: '300,00',
-    tipo: '3',
-    descricao: 'Conta de luz',
-    data: '30/05/2021',
-    destino: '1'
+
+export default function TelaDeRegistro({route,navigation}){
+  const [formValues, setFormValues] = useState({
+    valor: '',
+    tipo: '',
+    descricao: '',
+    data: '',
+    destino: '',
+    categoria: ''
   });
-
   const [selectedCategoria, setSelectedCategoria] = useState();
 
-  const handleChange = (env, name) => {
-    const valor = env.target.value;
-    setValue(valor, name)
-  }
+  const {itemId} = route.params;
 
   const setValue = (valor, name) => {
-    setState(prevState => ({
+    setFormValues(prevState => ({
       ...prevState,
       [name]: valor
     }))
   }
   
+  const atualizarRegistro = () => {
+    let id = itemId[0];
+    console.log(id);
+    RegistroService.atualizar(id, formValues);
+  };
+
   return (
-    <SafeAreaView style={[Estilo.container, formValues.tipo == '2' ? {backgroundColor:'#D03A31'} : {backgroundColor: '#4FC99A'}]}>
+    <SafeAreaView style={[Estilo.container, formValues.tipo == '2' ? {backgroundColor:'#D03A31'} : {backgroundColor: '#4169E1'}]}>
       
       <StatusBar backgroundColor='#fff' StatusBarStyle="dark-content"/> 
       
@@ -50,8 +55,8 @@ export default function TelaDeRegistro({navigation}){
             placeholder="Digite o valor..."
             keyboardType="numeric" 
             value = {formValues.valor}
-            onChange={(env)=> handleChange(env, 'valor') }
-          />
+            onChangeText={(text)=> setFormValues({...formValues, valor:text})}
+            />
         </View>        
         <View style={Estilo.tipoOp}>
           <Radio onChange={(valor)=> setValue(valor, 'tipo')}></Radio>
@@ -61,7 +66,7 @@ export default function TelaDeRegistro({navigation}){
             <TextInput
               style={Estilo.input2}
               placeholder="Descrição"
-              onChange={(env)=> handleChange(env, 'descricao')}
+              onChangeText={(text)=> setFormValues({...formValues, descricao:text})}
               value={formValues.descricao}
             />
           </View>
@@ -70,7 +75,6 @@ export default function TelaDeRegistro({navigation}){
               style={Estilo.input2}
               placeholder="Data"
               keyboardType="numeric"
-              onChange={(env)=> handleChange(env, 'data')}
               value = {formValues.data}
             />
           </View>
@@ -78,27 +82,33 @@ export default function TelaDeRegistro({navigation}){
             <Text style={Estilo.texto2}>Selecione a categoria do objetivo:</Text>
             <View style={Estilo.seletor}>
               <Picker
-                selectedValue={selectedCategoria}
+                selectedValue={formValues.categoria}
                 onValueChange={(itemValue, itemIndex) =>
-                  setSelectedCategoria(itemValue)
+                  setFormValues({...formValues, categoria:itemValue})
                 }>
-                <Picker.Item label="Beleza" value="beleza" />
-                <Picker.Item label="Academia" value="academia" />
-                <Picker.Item label="Salário" value="salario" />
-                <Picker.Item label="Saúde" value="saude" />
-                <Picker.Item label="Lazer" value="lazer" />
-                <Picker.Item label="Aluguel" value="aluguel" />
-                <Picker.Item label="Despesas mensais" value="desMensal" />
+                <Picker.Item label="Moradia" value="moradia"/>
+                    <Picker.Item label="Telefone" value="telefone"/>
+                    <Picker.Item label="Internet" value="internet"/>
+                    <Picker.Item label="Transporte" value="transporte"/>
+                    <Picker.Item label="Beleza" value="beleza"/>
+                    <Picker.Item label="Supermercado" value="supermercado"/>
+                    <Picker.Item label="Lanches" value="lanches"/>
+                    <Picker.Item label="Salário" value="salario"/>
+                    <Picker.Item label="Saúde" value="saude"/>
+                    <Picker.Item label="Lazer" value="lazer"/>
+                    <Picker.Item label="Outro" value="outro"/>
               </Picker>
             </View>
           </View>
         </View>
+        <View> <Text>{itemId} </Text> </View>
+
         <View>
           <Text style={Estilo.texto2}> {formValues.tipo == '2' ? "Para onde vai o dinheiro?" : "De onde está vindo o dinheiro?"}</Text>
         </View>
         <View style={{ width: '100%'}}>
           <Radio2 onChange={(valor)=> setValue(valor, 'destino')}></Radio2>
-          <TouchableOpacity onPress={()=>navigation.goBack()}>
+          <TouchableOpacity onPress={atualizarRegistro(itemId)}>
             <Salvar></Salvar>
           </TouchableOpacity>
         </View>

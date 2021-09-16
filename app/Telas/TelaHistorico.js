@@ -27,12 +27,14 @@ export default function TelaHome({navigation}){
     temp[key] = !temp[key]
     setShouldShow(temp)
   }
+
+
   const icones = {
     '1': require('../../assets/seta-verde.png'),
     '2': require('../../assets/seta-vermelha.png'),
     '3': require('../../assets/transferencia-azul.png')
   }
-
+ 
   return(
     <SafeAreaView style={Estilo.containerHome}>
       <StatusBar backgroundColor="#fff" StatusBarStyle="dark-content"/>
@@ -68,7 +70,7 @@ export default function TelaHome({navigation}){
                     <View>
                       {shouldShow[key] ? (
                         <View style={Estilo.infoHistorico}>
-                          <TouchableOpacity onPress={()=>navigation.navigate('NovoRegistro')}>
+                          <TouchableOpacity onPress={()=>navigation.navigate('EditarRegistro', {itemId: [key]})}>
                             <View style={Estilo.partesInfoHistorico}>
                               <Image source={require('../../assets/pencil-amarelo.png')} style={Estilo.iconeReg}/>
                               <Text style={[Estilo.textoB1, {marginLeft:10}]}>Editar</Text>

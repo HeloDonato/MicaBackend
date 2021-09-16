@@ -8,6 +8,7 @@ export default{
                 callback(dados);
         });
     },
+
     adicionar({data, ...registro}){
         console.log(registro);
         return db.ref(`usuarios/${auth.currentUser.uid}/registros/`)
@@ -18,14 +19,12 @@ export default{
             .child(id)
             .remove();
     },
-    /*
-    async atualizarTarefa(id, tarefa){
-        db.ref(`usuarios/${auth.currentUser.uid}/tarefas/`)
-            .update({
-                [id]: {
-                    ...tarefa,
-                    status: !tarefa.status
-                }
-            });
-    }*/
+
+    atualizar(id, registro){
+        console.log(id);
+        db.ref(`usuarios/${auth.currentUser.uid}/registros/`)
+            .child(id)
+            .update({...registro});
+    }
+    
 }

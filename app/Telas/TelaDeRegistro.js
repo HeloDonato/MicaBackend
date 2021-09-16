@@ -1,6 +1,6 @@
 import {StatusBar} from 'expo-status-bar'
 import React, {useState } from 'react'
-import {StyleSheet, Text,Picker, View, Alert, Image, SafeAreaView, TextInput, TouchableOpacity, ScrollView, ImageBackground, Select} from 'react-native'
+import {StyleSheet, Text,Picker, View, Alert, Image, SafeAreaView, TextInput, TouchableOpacity, ScrollView, ImageBackground} from 'react-native'
 import {Camera} from 'expo-camera';
 import Estilo from '../Estilos/estilos'
 import Radio from '../Componentes/radio';
@@ -187,7 +187,7 @@ export default function TelaCamera({navigation}){
             )}
         </View>  
       ) : (
-        <SafeAreaView style={[Estilo.container, formValues.tipo == '2' ? {backgroundColor:'#D03A31'} : {backgroundColor: '#4FC99A'}]}>
+        <SafeAreaView style={[Estilo.container, formValues.tipo == '2' ? {backgroundColor:'#D03A31'} : {backgroundColor: '#4169E1'}]}>
       
           <StatusBar backgroundColor='#fff' StatusBarStyle="dark-content"/> 
           

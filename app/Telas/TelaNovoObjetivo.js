@@ -31,7 +31,7 @@ export default function TelaDeRegistro({navigation}){
   }
   
   return (
-    <SafeAreaView style={[Estilo.container, formValues.tipo == '2' ? {backgroundColor:'#D03A31'} : {backgroundColor: '#4FC99A'}]}>
+    <SafeAreaView style={[Estilo.container, formValues.tipo == '2' ? {backgroundColor:'#D03A31'} : {backgroundColor: '#4169E1'}]}>
       
       <StatusBar backgroundColor='#fff' StatusBarStyle="dark-content"/> 
       
