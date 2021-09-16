@@ -407,11 +407,12 @@ export default StyleSheet.create({
     searchSection: {
       width: '100%',
       flexDirection: 'row',
-      justifyContent: 'flex-end',
+      justifyContent: 'space-between',
       alignItems: 'center',
       backgroundColor: '#fff',
       height: 46,
       borderRadius: 5,
+      paddingLeft: 15,
     },
     searchIcon: {
         padding: 10,

@@ -1,16 +1,16 @@
 import {db, auth} from '../firebaseConfig';
 
 export default{
-    /*async listar(callback){
-        db.ref(`usuarios/${auth.currentUser.uid}/tarefas/`).on('value', query => {
+    listar(callback){
+        db.ref(`usuarios/${auth.currentUser.uid}/registros/`).on('value', query => {
             const dados = query.val() ? query.val() : {};
             if (callback)
                 callback(dados);
         });
-    },*/
+    },
     adicionar({data, ...registro}){
         console.log(registro);
-        db.ref(`usuarios/${auth.currentUser.uid}/registros/`)
+        return db.ref(`usuarios/${auth.currentUser.uid}/registros/`)
             .push({...registro, data:data.toUTCString()});
     },/*
     removerTarefa(id) {

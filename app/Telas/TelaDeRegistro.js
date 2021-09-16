@@ -1,6 +1,6 @@
 import {StatusBar} from 'expo-status-bar'
-import React, {useState} from 'react'
-import {StyleSheet, Text, View, Alert, Image, SafeAreaView, TextInput, TouchableOpacity, ScrollView, ImageBackground} from 'react-native'
+import React, {useState } from 'react'
+import {StyleSheet, Text,Picker, View, Alert, Image, SafeAreaView, TextInput, TouchableOpacity, ScrollView, ImageBackground, Select} from 'react-native'
 import {Camera} from 'expo-camera';
 import Estilo from '../Estilos/estilos'
 import Radio from '../Componentes/radio';
@@ -10,12 +10,6 @@ import 'react-native-gesture-handler';
 import RegistroService from '../Services/RegistroService';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { SimpleLineIcons } from '@expo/vector-icons'; 
-import { Picker } from '@react-native-picker/picker';
-import DropDown, {
-  Select,
-  Option,
-  OptionList,
-} from 'react-native-selectme';
 
 let camera = Camera
 export default function TelaCamera({navigation}){
@@ -24,11 +18,9 @@ export default function TelaCamera({navigation}){
     tipo: '1',
     descricao: '',
     data: new Date(),
-    destino: '0'
+    destino: '0',
+    categoria: ''
   });
-
-
-  const [selectedCategoria, setSelectedCategoria] = useState();
 
   const setValue = (valor, name) => {
     setFormValues(prevState => ({
@@ -38,7 +30,11 @@ export default function TelaCamera({navigation}){
   }
 
   const adicionarTarefa = () => {
-    RegistroService.adicionar(formValues);
+    RegistroService.adicionar(formValues).then(()=>{
+      navigation.navigate("Historico");
+    }).catch(
+        alert("Erro! Tente novamente")
+      );
   };
 
   const [show, setShow] = useState(false);
@@ -49,7 +45,6 @@ export default function TelaCamera({navigation}){
     setFormValues({...formValues, data:currentDate});
     //console.log(selectedDate);
   };
-
 
   const showDatepicker = () => {
     setShow(true);
@@ -215,10 +210,10 @@ export default function TelaCamera({navigation}){
                   onChangeText ={(text)=> setFormValues({...formValues, descricao:text})}
                 />
               </View>
-              <View style={{alignItems:'center', paddingBottom: 10}}>
+              <View>
                 <TouchableOpacity onPress={showDatepicker}>
                   <View style={Estilo.searchSection}>
-                    <Text style={{fontSize: 25, paddingRight:'58%'}}>
+                    <Text style={{fontSize: 25}}>
                       {formValues.data && formValues.data?.toLocaleDateString('pt-BR')}
                     </Text>
                     <SimpleLineIcons style={Estilo.searchIcon} name="calendar" size={24} color="gray"/>
@@ -239,38 +234,22 @@ export default function TelaCamera({navigation}){
                 <Text style={Estilo.texto2}>Selecione a categoria do registro:</Text>
                 <View style={Estilo.seletor}>
                   <Picker
-                    selectedValue={selectedCategoria}
+                    selectedValue={formValues.categoria}
                     onValueChange={(itemValue, itemIndex) =>
-                      setSelectedCategoria(itemValue)
+                      setFormValues({...formValues, categoria:itemValue})
                     }>
-                    <Picker.Item label="Beleza" value="beleza" />
-                    <Picker.Item label="Academia" 	/>
-                    <Picker.Item label="Salário" value="salario" />
-                    <Picker.Item label="Saúde" value="saude" />
-                    <Picker.Item label="Lazer" value="lazer" />
-                    <Picker.Item label="Aluguel" value="aluguel" />
+                    <Picker.Item label="Moradia" value="moradia"/>
+                    <Picker.Item label="Telefone" value="telefone"/>
+                    <Picker.Item label="Internet" value="internet"/>
+                    <Picker.Item label="Transporte" value="transporte"/>
+                    <Picker.Item label="Beleza" value="beleza"/>
+                    <Picker.Item label="Supermercado" value="supermercado"/>
+                    <Picker.Item label="Lanches" value="lanches"/>
+                    <Picker.Item label="Salário" value="salario"/>
+                    <Picker.Item label="Saúde" value="saude"/>
+                    <Picker.Item label="Lazer" value="lazer"/>
+                    <Picker.Item label="Outro" value="outro"/>
                   </Picker>
-                  <Select
-            width={250}
-            ref="SELECT1"
-            optionListRef={this._getOptionList.bind(this)}
-            defaultValue="Select a Province in Canada ..."
-            onSelect={this._canada.bind(this)}>
-            <Option value = {{id : "alberta"}}>Alberta</Option>
-            <Option>British Columbia</Option>
-            <Option>Manitoba</Option>
-            <Option>New Brunswick</Option>
-            <Option>Newfoundland and Labrador</Option>
-            <Option>Northwest Territories</Option>
-            <Option>Nova Scotia</Option>
-            <Option>Nunavut</Option>
-            <Option>Ontario</Option>
-            <Option>Prince Edward Island</Option>
-            <Option>Quebec</Option>
-            <Option>Saskatchewan</Option>
-            <Option>Yukon</Option>
-          </Select>
-
                 </View>
               </View>
             </View>
@@ -297,7 +276,6 @@ export default function TelaCamera({navigation}){
               <Salvar/>
             </TouchableOpacity>
           </ScrollView>
-          
         </SafeAreaView>
       )}
     </View>

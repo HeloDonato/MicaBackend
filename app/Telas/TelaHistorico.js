@@ -1,25 +1,33 @@
 import { StatusBar } from 'expo-status-bar';
-import React, {useState} from 'react';
-import { SafeAreaView,Text, View, Image, TouchableOpacity} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import { SafeAreaView,Text, View, Image, TouchableOpacity, ScrollView} from 'react-native';
 import Estilo from '../Estilos/estilos'
 import 'react-native-gesture-handler';
 import HistoricoService from '../Services/HistoricoServise';
-
+import RegistroService from '../Services/RegistroService';
 
 export default function TelaHome({navigation}){
   const [shouldShow, setShouldShow] = useState({});
-  const [historico, setHistorico] = React
-  .useState(HistoricoService.getHistorico());
 
-  const exibir = (indice)=>{
+  const [listaRegistros, setListaRegistros] = useState({});
+
+  useEffect(()=>{
+    registrarObservador();
+  },[]);
+  
+  const registrarObservador = () =>{
+    RegistroService.listar(setListaRegistros);
+  }
+
+  const exibir = (key)=>{
     let temp = {...shouldShow}
-    temp[indice] = !temp[indice]
+    temp[key] = !temp[key]
     setShouldShow(temp)
   }
   const icones = {
-    'receita': require('../../assets/seta-verde.png'),
-    'despesa': require('../../assets/seta-vermelha.png'),
-    'transfer': require('../../assets/transferencia-azul.png')
+    '1': require('../../assets/seta-verde.png'),
+    '2': require('../../assets/seta-vermelha.png'),
+    '3': require('../../assets/transferencia-azul.png')
   }
 
   return(
@@ -37,44 +45,46 @@ export default function TelaHome({navigation}){
         </View>
       </View>
       <View style={Estilo.areaInfo}>
-        <View style={Estilo.fundoHistorico}>
-          {
-            historico.map( (item, indice) => {
-              return <View key={indice}>
-                <View>
-                  <View style={Estilo.parte2}>
-                    <View style={{flexDirection:'row', alignItems:'center'}}>
-                      <TouchableOpacity onPress={() => exibir(indice)}>
-                        <Image source={icones[item.tipo]} style={Estilo.iconeReg}/>
-                      </TouchableOpacity>
-                      <Text style={[Estilo.textoB1, {marginLeft:10}]}>{item.desc}</Text>
-                    </View>
-                    <View style={{width:'30%'}}>
-                      <Text style={Estilo.textoB1}>R$ {item.valor}</Text>
-                    </View>
-                  </View>
+        <ScrollView>
+          <View style={Estilo.fundoHistorico}>
+            {
+              Object.keys(listaRegistros).map(key => {
+                return <View key={key}>
                   <View>
-                    {shouldShow[indice] ? (
-                      <View style={Estilo.infoHistorico}>
-                        <TouchableOpacity onPress={()=>navigation.navigate('NovoRegistro')}>
-                          <View style={Estilo.partesInfoHistorico}>
-                            <Image source={require('../../assets/pencil-amarelo.png')} style={Estilo.iconeReg}/>
-                            <Text style={[Estilo.textoB1, {marginLeft:10}]}>Editar</Text>
-                          </View>
+                    <View style={Estilo.parte2}>
+                      <View style={{flexDirection:'row', alignItems:'center'}}>
+                        <TouchableOpacity onPress={() => exibir(key)}>
+                          <Image source={icones[listaRegistros[key].tipo]} style={Estilo.iconeReg}/>
                         </TouchableOpacity>
-                        <View style={Estilo.partesInfoHistorico}>
-                          <Image source={require('../../assets/x-vermelho.png')} style={Estilo.iconeReg}/>
-                          <Text style={[Estilo.textoB1, {marginLeft:10}]}>Excluir</Text>
-                        </View>
+                        <Text style={[Estilo.textoB1, {marginLeft:10}]}>{listaRegistros[key].descricao}</Text>
                       </View>
-                    ) : null}
+                      <View style={{width:'30%'}}>
+                        <Text style={Estilo.textoB1}>R$ {listaRegistros[key].valor}</Text>
+                      </View>
+                    </View>
+                    <View>
+                      {shouldShow[key] ? (
+                        <View style={Estilo.infoHistorico}>
+                          <TouchableOpacity onPress={()=>navigation.navigate('NovoRegistro')}>
+                            <View style={Estilo.partesInfoHistorico}>
+                              <Image source={require('../../assets/pencil-amarelo.png')} style={Estilo.iconeReg}/>
+                              <Text style={[Estilo.textoB1, {marginLeft:10}]}>Editar</Text>
+                            </View>
+                          </TouchableOpacity>
+                          <View style={Estilo.partesInfoHistorico}>
+                            <Image source={require('../../assets/x-vermelho.png')} style={Estilo.iconeReg}/>
+                            <Text style={[Estilo.textoB1, {marginLeft:10}]}>Excluir</Text>
+                          </View>
+                        </View>
+                      ) : null}
+                    </View>
                   </View>
+                  <View style={Estilo.linha2}/> 
                 </View>
-                <View style={Estilo.linha2}/> 
-              </View>
-            })
-          }     
-        </View>
+              })
+            }     
+          </View>
+        </ScrollView>
       </View>    
     </SafeAreaView>
   )
