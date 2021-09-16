@@ -21,6 +21,8 @@ export default function TelaCamera({navigation}){
     destino: '0',
     categoria: ''
   });
+  let data = formValues.data
+  let dataFormatada = ((data.getDate() )) + "/" + ((data.getMonth() + 1)) + "/" + data.getFullYear(); 
 
   const setValue = (valor, name) => {
     setFormValues(prevState => ({
@@ -32,9 +34,14 @@ export default function TelaCamera({navigation}){
   const adicionarTarefa = () => {
     RegistroService.adicionar(formValues).then(()=>{
       navigation.navigate("Historico");
-    }).catch(
-        alert("Erro! Tente novamente")
-      );
+    })
+    setFormValues({...formValues, 
+      valor:'', 
+      tipo: '1', 
+      descricao: '',
+      data: new Date(),
+      destino: '0',
+      categoria: ''});
   };
 
   const [show, setShow] = useState(false);
@@ -43,8 +50,11 @@ export default function TelaCamera({navigation}){
     const currentDate = selectedDate || date;
     setShow(Platform.OS === 'ios');
     setFormValues({...formValues, data:currentDate});
+    setDataSelecionada(true);
     //console.log(selectedDate);
   };
+
+  const [dataSelecionada, setDataSelecionada] = useState(false);
 
   const showDatepicker = () => {
     setShow(true);
@@ -214,7 +224,7 @@ export default function TelaCamera({navigation}){
                 <TouchableOpacity onPress={showDatepicker}>
                   <View style={Estilo.searchSection}>
                     <Text style={{fontSize: 25}}>
-                      {formValues.data && formValues.data?.toLocaleDateString('pt-BR')}
+                      {dataSelecionada ? dataFormatada : <Text style={{color: 'grey'}}>Data</Text>}
                     </Text>
                     <SimpleLineIcons style={Estilo.searchIcon} name="calendar" size={24} color="gray"/>
                   </View>

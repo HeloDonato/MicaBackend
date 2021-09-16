@@ -23,6 +23,7 @@
     "expo-font": "~9.1.0",
     "expo-status-bar": "~1.0.4",
     "firebase": "8.2.3",
+    "moment": "^2.29.1",
     "native-base": "^3.1.0",
     "parse": "^3.2.0",
     "react": "16.13.1",

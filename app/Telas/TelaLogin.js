@@ -56,16 +56,6 @@ export default function TelaLogin({navigation}){
           onChangeText={handleSenhaChange}
           secureTextEntry={true}
         />
-        {/*
-          <View style={Estilo.viewCheckbox}>
-          <CheckBox
-            value={isSelected}
-            onValueChange={setSelection}
-            tintColors = {{ true: '#fff'}}
-          />
-          <Text style={Estilo.checkboxTexto}>Manter Conectado</Text>
-          </View>*/
-        }
         <View>
           <TouchableWithoutFeedback onPress={handleEntrarPress}>
             <View style={Estilo.botaoLogin}>

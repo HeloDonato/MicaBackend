@@ -12,12 +12,13 @@ export default{
         console.log(registro);
         return db.ref(`usuarios/${auth.currentUser.uid}/registros/`)
             .push({...registro, data:data.toUTCString()});
-    },/*
-    removerTarefa(id) {
-        db.ref(`usuarios/${auth.currentUser.uid}/tarefas/`)
+    },
+    remover(id) {
+        db.ref(`usuarios/${auth.currentUser.uid}/registros/`)
             .child(id)
             .remove();
     },
+    /*
     async atualizarTarefa(id, tarefa){
         db.ref(`usuarios/${auth.currentUser.uid}/tarefas/`)
             .update({

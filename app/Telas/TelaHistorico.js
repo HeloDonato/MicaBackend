@@ -3,7 +3,6 @@ import React, {useState, useEffect} from 'react';
 import { SafeAreaView,Text, View, Image, TouchableOpacity, ScrollView} from 'react-native';
 import Estilo from '../Estilos/estilos'
 import 'react-native-gesture-handler';
-import HistoricoService from '../Services/HistoricoServise';
 import RegistroService from '../Services/RegistroService';
 
 export default function TelaHome({navigation}){
@@ -18,6 +17,10 @@ export default function TelaHome({navigation}){
   const registrarObservador = () =>{
     RegistroService.listar(setListaRegistros);
   }
+
+  const handleApagar = (id) => {
+    RegistroService.remover(id);
+  };
 
   const exibir = (key)=>{
     let temp = {...shouldShow}
@@ -71,10 +74,12 @@ export default function TelaHome({navigation}){
                               <Text style={[Estilo.textoB1, {marginLeft:10}]}>Editar</Text>
                             </View>
                           </TouchableOpacity>
-                          <View style={Estilo.partesInfoHistorico}>
-                            <Image source={require('../../assets/x-vermelho.png')} style={Estilo.iconeReg}/>
-                            <Text style={[Estilo.textoB1, {marginLeft:10}]}>Excluir</Text>
-                          </View>
+                          <TouchableOpacity onPress={()=>handleApagar(key)}>
+                            <View style={Estilo.partesInfoHistorico}>
+                              <Text style={[Estilo.textoB1, {marginLeft:10}]}>Excluir</Text>
+                              <Image source={require('../../assets/x-vermelho.png')} style={Estilo.iconeReg}/>
+                            </View>
+                          </TouchableOpacity>
                         </View>
                       ) : null}
                     </View>

@@ -59,6 +59,7 @@ export default function TelaLogin({navigation}){
             style={Estilo.camposForm}
             placeholder="Senha"
             value={password}
+            secureTextEntry={true}
             onChangeText={(text) => setPassword(text)}
           />
           <View>
