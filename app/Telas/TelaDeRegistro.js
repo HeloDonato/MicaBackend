@@ -11,16 +11,19 @@ import RegistroService from '../Services/RegistroService';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { SimpleLineIcons } from '@expo/vector-icons'; 
 
+const valoresIniciais = {
+  valor: '',
+  tipo: '1',
+  descricao: '',
+  data: new Date(),
+  destino: '0',
+  categoria: ''
+}
+
 let camera = Camera
 export default function TelaCamera({navigation}){
-  const [formValues, setFormValues] = useState({
-    valor: '',
-    tipo: '1',
-    descricao: '',
-    data: new Date(),
-    destino: '0',
-    categoria: ''
-  });
+  const [formValues, setFormValues] = useState(valoresIniciais);
+  
   let data = formValues.data
   let dataFormatada = ((data.getDate() )) + "/" + ((data.getMonth() + 1)) + "/" + data.getFullYear(); 
 
@@ -36,12 +39,7 @@ export default function TelaCamera({navigation}){
       navigation.navigate("Historico");
     })
     setFormValues({...formValues, 
-      valor:'', 
-      tipo: '1', 
-      descricao: '',
-      data: new Date(),
-      destino: '0',
-      categoria: ''});
+     ...valoresIniciais});
   };
 
   const [show, setShow] = useState(false);

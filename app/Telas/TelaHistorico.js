@@ -70,7 +70,7 @@ export default function TelaHome({navigation}){
                     <View>
                       {shouldShow[key] ? (
                         <View style={Estilo.infoHistorico}>
-                          <TouchableOpacity onPress={()=>navigation.navigate('EditarRegistro', {itemId: [key]})}>
+                          <TouchableOpacity onPress={()=>navigation.navigate('EditarRegistro', {item:listaRegistros[key]})}>
                             <View style={Estilo.partesInfoHistorico}>
                               <Image source={require('../../assets/pencil-amarelo.png')} style={Estilo.iconeReg}/>
                               <Text style={[Estilo.textoB1, {marginLeft:10}]}>Editar</Text>

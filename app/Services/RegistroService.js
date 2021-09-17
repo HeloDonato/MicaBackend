@@ -14,6 +14,7 @@ export default{
         return db.ref(`usuarios/${auth.currentUser.uid}/registros/`)
             .push({...registro, data:data.toUTCString()});
     },
+
     remover(id) {
         db.ref(`usuarios/${auth.currentUser.uid}/registros/`)
             .child(id)
@@ -25,6 +26,14 @@ export default{
         db.ref(`usuarios/${auth.currentUser.uid}/registros/`)
             .child(id)
             .update({...registro});
+    },
+
+    localizar(id) {
+        return db.ref(`usuarios/${auth.currentUser.uid}/registros/`)
+        .child(id)
+        .once('value', (data) => {
+            console.log(data)
+            });
     }
     
 }
