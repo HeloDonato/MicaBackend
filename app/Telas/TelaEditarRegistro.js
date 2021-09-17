@@ -14,9 +14,9 @@ import { useEffect } from 'react';
 
 let camera = Camera
 export default function TelaEditarRegistro({route, navigation}){
-  
-  const {item} = route.params;
+  const {item, itemId} = route.params;
   item.data = new Date(item.data);
+  const idRegistro = itemId;
 
   const [formValues, setFormValues] = useState({
     valor: '',
@@ -26,14 +26,13 @@ export default function TelaEditarRegistro({route, navigation}){
     destino: '0',
     categoria: '',
   });
-  
+  debugger;
   const [dataFormatada, setDataFormatada] = useState('');
   //let data = formValues.data
   //let dataFormatada = ((data.getDate() )) + "/" + ((data.getMonth() + 1)) + "/" + data.getFullYear(); 
   
   useEffect(()=>{
     setFormValues({...item});
-    //debugger;
     let data = item.data
     setDataFormatada(((data.getDate() )) + "/" + ((data.getMonth() + 1)) + "/" + data.getFullYear()); 
   }, [item]);
@@ -47,9 +46,10 @@ export default function TelaEditarRegistro({route, navigation}){
   }
 
   const atualizarRegistro = () => {
-    let id = itemId[0];
-    console.log(id);
-    RegistroService.atualizar(id, formValues);
+    RegistroService.atualizar(idRegistro, formValues)
+      .then(()=>{
+        navigation.navigate("Historico");
+      });
   };
 
   /*const adicionarTarefa = () => {
@@ -303,7 +303,7 @@ export default function TelaEditarRegistro({route, navigation}){
                 <Text style={Estilo.texto2}> Anexar comprovante</Text>
               </TouchableOpacity>
             </View>
-            <TouchableOpacity onPress={() => {atualizarRegistro(itemId)}}>
+            <TouchableOpacity onPress={() => {atualizarRegistro(idRegistro)}}>
               <Salvar/>
             </TouchableOpacity>
           </ScrollView>

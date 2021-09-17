@@ -23,7 +23,7 @@ export default{
 
     atualizar(id, registro){
         console.log(id);
-        db.ref(`usuarios/${auth.currentUser.uid}/registros/`)
+        return db.ref(`usuarios/${auth.currentUser.uid}/registros/`)
             .child(id)
             .update({...registro});
     },
