@@ -26,7 +26,7 @@ export default function TelaEditarRegistro({route, navigation}){
     destino: '0',
     categoria: '',
   });
-  debugger;
+  //debugger;
   const [dataFormatada, setDataFormatada] = useState('');
   //let data = formValues.data
   //let dataFormatada = ((data.getDate() )) + "/" + ((data.getMonth() + 1)) + "/" + data.getFullYear(); 
@@ -230,7 +230,7 @@ export default function TelaEditarRegistro({route, navigation}){
               />
             </View>     
             <View style={Estilo.tipoOp}>
-              <Radio valor={formValues.tipo} onChange={(valor)=> setValue(valor, 'tipo')}></Radio>
+              <Radio valor={item.tipo} onChange={(valor)=> setValue(valor, 'tipo')}></Radio>
             </View>
             <View style={{width: '100%', alignSelf:'center'}}>
               <View style={{alignItems:'center', paddingBottom: 10}}>
@@ -288,7 +288,7 @@ export default function TelaEditarRegistro({route, navigation}){
               <Text style={Estilo.texto2}> {formValues.tipo == '2' ? "Para onde vai o dinheiro?" : "De onde está vindo o dinheiro?"}</Text>
             </View>
             <View style={{ width: '100%'}}>
-              <Radio2 value={formValues.destino} onChange={(valor)=> setValue(valor, 'destino')}></Radio2>
+              <Radio2 valor={item.destino} onChange={(valor)=> setValue(valor, 'destino')}></Radio2>
               <TouchableOpacity
                 onPress={__startCamera}
                 style={{
