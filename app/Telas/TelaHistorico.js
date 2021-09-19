@@ -56,32 +56,38 @@ export default function TelaHome({navigation}){
               Object.keys(listaRegistros).map(key => {
                 return <View key={key}>
                   <View>
-                    <View style={Estilo.parte2}>
-                      <View style={{flexDirection:'row', alignItems:'center'}}>
-                        <TouchableOpacity onPress={() => exibir(key)}>
-                          <Image source={icones[listaRegistros[key].tipo]} style={Estilo.iconeReg}/>
-                        </TouchableOpacity>
-                        <Text style={[Estilo.textoB1, {marginLeft:10}]}>{listaRegistros[key].descricao}</Text>
+                    <TouchableOpacity onPress={() => exibir(key)}>
+                      <View style={Estilo.parte2}>
+                        <View style={{flexDirection:'row', alignItems:'center'}}>
+                            <Image source={icones[listaRegistros[key].tipo]} style={Estilo.iconeReg}/>
+                            <Text style={[Estilo.textoB1, {marginLeft:10}]}>{listaRegistros[key].descricao}</Text>
+                        </View>
+                        <View style={{width:'30%'}}>
+                          <Text style={Estilo.textoB1}>R$ {listaRegistros[key].valor}</Text>
+                        </View>
                       </View>
-                      <View style={{width:'30%'}}>
-                        <Text style={Estilo.textoB1}>R$ {listaRegistros[key].valor}</Text>
-                      </View>
-                    </View>
+                    </TouchableOpacity>
                     <View>
                       {shouldShow[key] ? (
-                        <View style={Estilo.infoHistorico}>
-                          <TouchableOpacity onPress={()=>navigation.navigate('EditarRegistro', {item:listaRegistros[key], itemId:key})}>
-                            <View style={Estilo.partesInfoHistorico}>
-                              <Image source={require('../../assets/pencil-amarelo.png')} style={Estilo.iconeReg}/>
-                              <Text style={[Estilo.textoB1, {marginLeft:10}]}>Editar</Text>
-                            </View>
-                          </TouchableOpacity>
-                          <TouchableOpacity onPress={()=>handleApagar(key)}>
-                            <View style={Estilo.partesInfoHistorico}>
-                              <Text style={[Estilo.textoB1, {marginLeft:10}]}>Excluir</Text>
-                              <Image source={require('../../assets/x-vermelho.png')} style={Estilo.iconeReg}/>
-                            </View>
-                          </TouchableOpacity>
+                        <View style={{flexDirection:'column'}}>
+                          <View style={{alignItems:'center', paddingTop: 15}}>
+                            <Image style={Estilo.comprovanteImg} source={{uri:listaRegistros[key].urlImagem}}></Image>
+                          </View>
+                          <View style={Estilo.infoHistorico}>
+                            <TouchableOpacity onPress={()=>navigation.navigate('EditarRegistro', {item:listaRegistros[key], itemId:key})}>
+                              <View style={Estilo.partesInfoHistorico}>
+                                <Image source={require('../../assets/pencil-amarelo.png')} style={Estilo.iconeReg}/>
+                                <Text style={[Estilo.textoB1, {marginLeft:10}]}>Editar</Text>
+                              </View>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={()=>handleApagar(key)}>
+                              <View style={Estilo.partesInfoHistorico}>
+                                <Text style={[Estilo.textoB1, {marginLeft:10}]}>Excluir</Text>
+                                <Image source={require('../../assets/x-vermelho.png')} style={Estilo.iconeReg}/>
+                              </View>
+                            </TouchableOpacity>
+                          </View>
+                          
                         </View>
                       ) : null}
                     </View>

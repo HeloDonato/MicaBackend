@@ -1,4 +1,4 @@
-import {db, auth} from '../firebaseConfig';
+import {db, auth, storage} from '../firebaseConfig';
 
 export default{
     listar(callback){
@@ -28,12 +28,26 @@ export default{
             .update({...registro});
     },
 
-    localizar(id) {
-        return db.ref(`usuarios/${auth.currentUser.uid}/registros/`)
-        .child(id)
-        .once('value', (data) => {
-            console.log(data)
-            });
+    async uploadImagem(imagem){
+
+        const blob = await new Promise((resolve, reject) =>{
+            const xhr = new XMLHttpRequest();            
+            xhr.onload = function(){
+                resolve(xhr.response);
+            }
+            xhr.responseType = 'blob'            
+            xhr.open('GET', imagem, true);
+            xhr.send(null);
+        });
+
+        const comprovante = 
+            storage.
+                ref()
+                .child(`usuarios/${auth.currentUser.uid}/registros/${new Date().getTime()}`);
+                
+        await comprovante.put(blob);
+        let url = await comprovante.getDownloadURL();
+        return url; 
     }
     
 }

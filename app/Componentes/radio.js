@@ -8,6 +8,9 @@ const MyComponent = ({valor, onChange}) => {
     setChecked(newValue);
     onChange(newValue);
   }
+  React.useEffect(()=>{
+		setChecked(valor)
+	},[valor]);
   
   return (
     <View style={{flexDirection:'row', justifyContent:'space-between', backgroundColor:'fff'}}>
