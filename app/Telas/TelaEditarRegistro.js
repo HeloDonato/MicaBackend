@@ -45,8 +45,9 @@ export default function TelaEditarRegistro({route, navigation}){
     }))
   }
 
-  const atualizarRegistro = () => {
-    RegistroService.atualizar(idRegistro, formValues)
+  const atualizarRegistro = async() => {
+    let url = await RegistroService.uploadImagem(image);
+    RegistroService.atualizar(idRegistro, {...formValues, urlImagem: url})
       .then(()=>{
         navigation.navigate("Historico");
       });

@@ -13,11 +13,11 @@ export default{
                        somaTotal += JSON.parse(item.val().valor);
                    }
                 });
-            console.log(somaTotal);
+            
         });
     },
 
-    somaCarteira(){
+    somaCarteira(callback){
         var somaCt = 0;
         db.ref(`usuarios/${auth.currentUser.uid}/registros/`)
             .on('value', function (snapshot){
@@ -28,7 +28,7 @@ export default{
                        somaCt += JSON.parse(item.val().valor);
                    }
                 });
-                console.log(somaCt);
+                callback(somaCt);
         });
     },
 

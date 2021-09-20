@@ -21,11 +21,11 @@ export default{
             .remove();
     },
 
-    atualizar(id, registro){
+    async atualizar(id, {data, ...registro}){
         console.log(id);
         return db.ref(`usuarios/${auth.currentUser.uid}/registros/`)
             .child(id)
-            .update({...registro});
+            .update({...registro, data:data.toUTCString()});
     },
 
     async uploadImagem(imagem){

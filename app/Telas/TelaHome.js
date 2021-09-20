@@ -6,22 +6,29 @@ import 'react-native-gesture-handler';
 import HomeService from '../Services/HomeService';
 
 export default function TelaHome({navigation}){
+  
+  
   const [soma, setSoma] = useState(0);
   useEffect(()=>{
     setSoma(somaT());
     somaCT();
     somaCc();
   },[]);  
+
   const somaCT = () =>{
-    HomeService.somaCarteira();
+    HomeService.somaCarteira((soma)=>{ setSoma(soma)})
   }
+
   const somaCc = () =>{
     HomeService.somaConta();
   }
+
   const somaT = () =>{  
-    console.log(soma)
-   HomeService.somaTotal();
+    HomeService.somaTotal();
   }
+
+  console.log(somaCT);
+  console.log(somaCT);
 
   return(
     <SafeAreaView style={Estilo.containerHome}>
@@ -31,7 +38,7 @@ export default function TelaHome({navigation}){
           <Image source={require('../../assets/menu.png')} style={Estilo.iconeReg}/>
         </TouchableOpacity>
         <Text style={Estilo.exibirTotal}>Saldo total</Text>
-        <Text style={Estilo.exibirSaldo}> R$ 100 </Text>
+        <Text style={Estilo.exibirSaldo}> {somaCT} </Text>
       </View>
       <View style={Estilo.areaInfo}>
           <View style={Estilo.bloco1}>
