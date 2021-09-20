@@ -58,13 +58,8 @@ export default{
                snapshot.forEach(function(item){
                   let x =  Date.parse(item.val().data);
                   let y = new Date(x).getMonth() + 1;
-                  console.log(y,n);
-                   if(item.val().tipo == '1' && y == n){
+                   if(item.val().tipo == '1' && y == n)
                        somaR += parseInt(item.val().valor);
-                       console.log(somaR);
-                    }else{
-                        console.log('teste');
-                    }
                 });
                 callback(somaR);
                 somaR = 0;
@@ -80,7 +75,6 @@ export default{
                snapshot.forEach(function(item){
                   let x =  Date.parse(item.val().data);
                   let y = new Date(x).getMonth() + 1;
-                  console.log(x,y,n);
                    if(item.val().tipo == '2' && y == n)
                        somaR += parseInt(item.val().valor);
                 });
