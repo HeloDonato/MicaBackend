@@ -12,14 +12,14 @@ export default function TelaHome({navigation}){
   const [saldoCt, setSaldoCt] = useState(0);
   const [saldoCc, setSaldoCc] = useState(0);
   const [saldoR, setSaldoR] = useState(0);
-  //const [saldoCc, setSaldoCc] = useState(0);
+  const [saldoD, setSaldoD] = useState(0);
 
   useEffect(()=>{
     setSaldo(somaT());
     setSaldoCt(somaCT());
     setSaldoCc(somaCc());
     setSaldoR(somaR());
-    //somaCc(somaCc());
+    setSaldoD(somaD());
   },[]);  
 
   const somaCT = () =>{
@@ -35,6 +35,9 @@ export default function TelaHome({navigation}){
   }
   const somaR = () =>{  
     HomeService.somaReceitas(((saldoR)=>{setSaldoR(saldoR)}));
+  }
+  const somaD = () =>{  
+    HomeService.somaDespesas(((saldoD)=>{setSaldoD(saldoD)}));
   }
 
 
@@ -103,7 +106,7 @@ export default function TelaHome({navigation}){
                 </View>
               </View>
               <View>
-                <Text style={[Estilo.textoB1, Estilo.texto2B1]}>R$ 40,00</Text>
+                <Text style={[Estilo.textoB1, Estilo.texto2B1]}>R$ {saldoD}</Text>
               </View>
             </View>
           </View>

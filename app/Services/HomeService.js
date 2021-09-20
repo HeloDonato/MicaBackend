@@ -58,16 +58,20 @@ export default{
                snapshot.forEach(function(item){
                   let x =  Date.parse(item.val().data);
                   let y = new Date(x).getMonth() + 1;
-                  console.log(x,y,n);
-                   if(item.val().tipo == '1' && y == n)
+                  console.log(y,n);
+                   if(item.val().tipo == '1' && y == n){
                        somaR += parseInt(item.val().valor);
+                       console.log(somaR);
+                    }else{
+                        console.log('teste');
+                    }
                 });
                 callback(somaR);
                 somaR = 0;
         });
     },
 
-    somaReceitas(callback){
+    somaDespesas(callback){
         var d = new Date();
         var n = d.getMonth() + 1;
         var somaR = 0;
