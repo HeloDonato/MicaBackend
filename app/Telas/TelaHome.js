@@ -8,27 +8,35 @@ import HomeService from '../Services/HomeService';
 export default function TelaHome({navigation}){
   
   
-  const [soma, setSoma] = useState(0);
+  const [saldoT, setSaldo] = useState(0);
+  const [saldoCt, setSaldoCt] = useState(0);
+  const [saldoCc, setSaldoCc] = useState(0);
+  const [saldoR, setSaldoR] = useState(0);
+  //const [saldoCc, setSaldoCc] = useState(0);
+
   useEffect(()=>{
-    setSoma(somaT());
-    somaCT();
-    somaCc();
+    setSaldo(somaT());
+    setSaldoCt(somaCT());
+    setSaldoCc(somaCc());
+    setSaldoR(somaR());
+    //somaCc(somaCc());
   },[]);  
 
   const somaCT = () =>{
-    HomeService.somaCarteira((soma)=>{ setSoma(soma)})
+    HomeService.somaCarteira((saldoCt)=>{ setSaldoCt(saldoCt)});
   }
 
   const somaCc = () =>{
-    HomeService.somaConta();
+    HomeService.somaConta((saldoCc)=>{setSaldoCc(saldoCc)});
   }
 
   const somaT = () =>{  
-    HomeService.somaTotal();
+    HomeService.somaTotal(((saldoT)=>{setSaldo(saldoT)}));
+  }
+  const somaR = () =>{  
+    HomeService.somaReceitas(((saldoR)=>{setSaldoR(saldoR)}));
   }
 
-  console.log(somaCT);
-  console.log(somaCT);
 
   return(
     <SafeAreaView style={Estilo.containerHome}>
@@ -38,7 +46,7 @@ export default function TelaHome({navigation}){
           <Image source={require('../../assets/menu.png')} style={Estilo.iconeReg}/>
         </TouchableOpacity>
         <Text style={Estilo.exibirTotal}>Saldo total</Text>
-        <Text style={Estilo.exibirSaldo}> {somaCT} </Text>
+        <Text style={Estilo.exibirSaldo}> R$ {saldoT} </Text>
       </View>
       <View style={Estilo.areaInfo}>
           <View style={Estilo.bloco1}>
@@ -50,7 +58,7 @@ export default function TelaHome({navigation}){
                 </View>
               </View>
               <View>
-                <Text style={Estilo.textoB1}>R$ 70,00</Text>
+                <Text style={Estilo.textoB1}>R$ {saldoCc}</Text>
               </View>
             </View>
 
@@ -64,7 +72,7 @@ export default function TelaHome({navigation}){
                 </View>
               </View>
               <View>
-                <Text style={Estilo.textoB1}>R$ 30,00</Text>
+                <Text style={Estilo.textoB1}>R$ {saldoCt}</Text>
               </View>
             </View>
           </View>
@@ -81,7 +89,7 @@ export default function TelaHome({navigation}){
                 </View>
               </View>
               <View>
-                <Text style={[Estilo.textoB1, Estilo.texto2B1]}>R$ 140,00</Text>
+                <Text style={[Estilo.textoB1, Estilo.texto2B1]}>R$ {saldoR}</Text>
               </View>
             </View>
             

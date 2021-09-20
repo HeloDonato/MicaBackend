@@ -2,18 +2,19 @@ import {db, auth, storage} from '../firebaseConfig';
 
 export default{
 
-    somaTotal(){
+    somaTotal(callback){
         var somaTotal = 0;
         db.ref(`usuarios/${auth.currentUser.uid}/registros/`)
             .on('value', function (snapshot){
                snapshot.forEach(function(item){
                    if(item.val().tipo == '2'){
-                       somaTotal -= JSON.parse(item.val().valor);
+                       somaTotal -= parseInt(item.val().valor);
                    }else{
-                       somaTotal += JSON.parse(item.val().valor);
+                       somaTotal += parseInt(item.val().valor);
                    }
                 });
-            
+                callback(somaTotal);
+                somaTotal = 0;
         });
     },
 
@@ -23,27 +24,64 @@ export default{
             .on('value', function (snapshot){
                snapshot.forEach(function(item){
                    if(item.val().tipo == '2' && item.val().destino == '2'){
-                       somaCt -= JSON.parse(item.val().valor);
+                       somaCt -= parseInt(item.val().valor);
                    }else if(item.val().tipo != '2' && item.val().destino == '2'){
-                       somaCt += JSON.parse(item.val().valor);
+                       somaCt += parseInt(item.val().valor);
                    }
                 });
                 callback(somaCt);
+                somaCt=0;
         });
     },
 
-    somaConta(){
+    somaConta(callback){
         var somaC = 0;
         db.ref(`usuarios/${auth.currentUser.uid}/registros/`)
             .on('value', function (snapshot){
                snapshot.forEach(function(item){
                    if(item.val().tipo == '2' && item.val().destino == '1'){
-                       somaC -= JSON.parse(item.val().valor);
+                       somaC -= parseInt(item.val().valor);
                    }else if(item.val().tipo != '2' && item.val().destino == '1'){
-                       somaC += JSON.parse(item.val().valor);
+                       somaC += parseInt(item.val().valor);
                    }
                 });
-                console.log(somaC);
+                callback(somaC);
+                somaC = 0;
+        });
+    },
+    somaReceitas(callback){
+        var d = new Date();
+        var n = d.getMonth() + 1;
+        var somaR = 0;
+        db.ref(`usuarios/${auth.currentUser.uid}/registros/`)
+            .on('value', function (snapshot){
+               snapshot.forEach(function(item){
+                  let x =  Date.parse(item.val().data);
+                  let y = new Date(x).getMonth() + 1;
+                  console.log(x,y,n);
+                   if(item.val().tipo == '1' && y == n)
+                       somaR += parseInt(item.val().valor);
+                });
+                callback(somaR);
+                somaR = 0;
+        });
+    },
+
+    somaReceitas(callback){
+        var d = new Date();
+        var n = d.getMonth() + 1;
+        var somaR = 0;
+        db.ref(`usuarios/${auth.currentUser.uid}/registros/`)
+            .on('value', function (snapshot){
+               snapshot.forEach(function(item){
+                  let x =  Date.parse(item.val().data);
+                  let y = new Date(x).getMonth() + 1;
+                  console.log(x,y,n);
+                   if(item.val().tipo == '2' && y == n)
+                       somaR += parseInt(item.val().valor);
+                });
+                callback(somaR);
+                somaR = 0;
         });
     },
 }
