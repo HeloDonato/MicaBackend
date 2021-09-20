@@ -1,12 +1,27 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { SafeAreaView,Text, View, Image, TouchableOpacity, ScrollView, TouchableHighlight} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import { SafeAreaView,Text, View, Image, TouchableOpacity} from 'react-native';
 import Estilo from '../Estilos/estilos'
 import 'react-native-gesture-handler';
-import RegistroService from '../Services/RegistroService';
-
+import HomeService from '../Services/HomeService';
 
 export default function TelaHome({navigation}){
+  const [soma, setSoma] = useState(0);
+  useEffect(()=>{
+    setSoma(somaT());
+    somaCT();
+    somaCc();
+  },[]);  
+  const somaCT = () =>{
+    HomeService.somaCarteira();
+  }
+  const somaCc = () =>{
+    HomeService.somaConta();
+  }
+  const somaT = () =>{  
+    console.log(soma)
+   HomeService.somaTotal();
+  }
 
   return(
     <SafeAreaView style={Estilo.containerHome}>
@@ -16,7 +31,7 @@ export default function TelaHome({navigation}){
           <Image source={require('../../assets/menu.png')} style={Estilo.iconeReg}/>
         </TouchableOpacity>
         <Text style={Estilo.exibirTotal}>Saldo total</Text>
-        <Text style={Estilo.exibirSaldo}> R$ 100,00</Text>
+        <Text style={Estilo.exibirSaldo}> R$ 100 </Text>
       </View>
       <View style={Estilo.areaInfo}>
           <View style={Estilo.bloco1}>
