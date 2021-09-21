@@ -73,7 +73,7 @@ export default function TelaHome({navigation}){
                           <View style={{alignItems:'center', paddingTop: 15}}>
                             { listaRegistros[key].urlImagem != '' ?
                               <Image style={Estilo.comprovanteImg} source={{uri:listaRegistros[key].urlImagem}}></Image>
-                            : <View><Text>opa</Text></View>}
+                            : <View></View>}
                           </View>
                           <View style={Estilo.infoHistorico}>
                             <TouchableOpacity onPress={()=>navigation.navigate('EditarRegistro', {item:listaRegistros[key], itemId:key})}>

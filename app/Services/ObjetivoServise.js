@@ -1,29 +1,30 @@
-let objetivo = [
-  {
-    id: 1,
-    desc: 'Limite de 500 reais com salão',
-    meta: 500,
-    atual: 477,
-    categoria: 'estética',
-    dataIni: '01/05/2021',
-    dataFim: '31/05/2021',
-    tipo: 'limite'
-  },
-  {
-    id: 2,
-    desc: 'Arrecadar 2000 reais no mês',
-    meta: 2000,
-    atual: 1500,
-    categoria: 'geral',
-    dataIni: '01/06/2021',
-    dataFim: '31/06/2021',
-    tipo: 'reserva'
-  },
-]
+import {db, auth, storage} from '../firebaseConfig';
 
+export default{
+    listar(callback){
+        db.ref(`usuarios/${auth.currentUser.uid}/objetivos/`).on('value', query => {
+            const dados = query.val() ? query.val() : {};
+            if (callback)
+                callback(dados);
+        });
+    },
 
-export default class ObjetivoService { 
-  static getObjetivo = () => {      
-    return objetivo;
-  }
+    adicionar({dataInicial, dataFinal, ...registro}){
+      console.log(dataInicial);
+      console.log(dataFinal);
+        return db.ref(`usuarios/${auth.currentUser.uid}/objetivos/`)
+            .push({dataInicial:dataInicial.toUTCString(), dataFinal:dataFinal.toUTCString(), ...registro});
+    },
+
+    remover(id) {
+        db.ref(`usuarios/${auth.currentUser.uid}/objetivos/`)
+            .child(id)
+            .remove();
+    },
+
+    async atualizar(id, {dataInicial, dataFinal, ...registro}){
+        return db.ref(`usuarios/${auth.currentUser.uid}/objetivos/`)
+            .child(id)
+            .update({...registro, dataInicial:dataInicial.toUTCString(), dataFinal:dataFinal.toUTCString()});
+    }
 }

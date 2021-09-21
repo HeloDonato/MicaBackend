@@ -12,7 +12,7 @@ function ConteudoMenu(props, {navigation}){
   }
   const { state, ...rest } = props;
   const itensMenu = { ...state}  
-  itensMenu.routes = itensMenu.routes.filter(item => item.name !== 'Cadastro' && item.name !== 'NovoObjetivo' && item.name !== 'EditarRegistro' )
+  itensMenu.routes = itensMenu.routes.filter(item => item.name !== 'Cadastro' && item.name !== 'NovoObjetivo' && item.name !== 'EditarRegistro' && item.name !== 'EditarObjetivo' )
   
   return(
     <SafeAreaView style={Estilo.menuLateral}>

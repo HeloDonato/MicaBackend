@@ -7,6 +7,7 @@ import TelaHistorico from './Telas/TelaHistorico';
 import TelaObjetivo from './Telas/TelaObjetivos';
 import TelaLogin from './Telas/TelaLogin';
 import TelaCadastro from './Telas/TelaCadastro';
+import TelaEditarObjetivo from './Telas/TelaEditarObjetivo';
 import NovoObjetivo from './Telas/TelaNovoObjetivo';
 import EditarRegistro from './Telas/TelaEditarRegistro';
 import 'react-native-gesture-handler';
@@ -78,6 +79,7 @@ const AuthStack = () => {
                     )
                 }}
             />
+            <Gavetas.Screen name="EditarObjetivo" component={TelaEditarObjetivo}/>
             <Gavetas.Screen name="NovoObjetivo" component={NovoObjetivo}/>
             <Gavetas.Screen name="EditarRegistro" component={EditarRegistro}/>
         </Gavetas.Navigator>

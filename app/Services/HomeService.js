@@ -9,7 +9,7 @@ export default{
                snapshot.forEach(function(item){
                    if(item.val().tipo == '2'){
                        somaTotal -= parseInt(item.val().valor);
-                   }else{
+                   }else if(item.val().tipo == '1'){
                        somaTotal += parseInt(item.val().valor);
                    }
                 });
@@ -23,11 +23,15 @@ export default{
         db.ref(`usuarios/${auth.currentUser.uid}/registros/`)
             .on('value', function (snapshot){
                snapshot.forEach(function(item){
-                   if(item.val().tipo == '2' && item.val().destino == '2'){
+                    if(item.val().tipo == '2' && item.val().destino == '2'){
                        somaCt -= parseInt(item.val().valor);
-                   }else if(item.val().tipo != '2' && item.val().destino == '2'){
+                    }else if(item.val().tipo == '1' && item.val().destino == '2'){
                        somaCt += parseInt(item.val().valor);
-                   }
+                    }else if(item.val().tipo == '3' && item.val().destino == '2'){
+                        somaCt += parseInt(item.val().valor);
+                    }else if(item.val().tipo == '3' && item.val().destino == '1'){
+                        somaCt -= parseInt(item.val().valor);
+                    }
                 });
                 callback(somaCt);
                 somaCt=0;
@@ -39,11 +43,15 @@ export default{
         db.ref(`usuarios/${auth.currentUser.uid}/registros/`)
             .on('value', function (snapshot){
                snapshot.forEach(function(item){
-                   if(item.val().tipo == '2' && item.val().destino == '1'){
+                    if(item.val().tipo == '2' && item.val().destino == '1'){
                        somaC -= parseInt(item.val().valor);
-                   }else if(item.val().tipo != '2' && item.val().destino == '1'){
+                    }else if(item.val().tipo == '1' && item.val().destino == '1'){
                        somaC += parseInt(item.val().valor);
-                   }
+                    }else if(item.val().tipo == '3' && item.val().destino == '1'){
+                        somaC += parseInt(item.val().valor);
+                    }else if(item.val().tipo == '3' && item.val().destino == '2'){
+                        somaC -= parseInt(item.val().valor);
+                    }
                 });
                 callback(somaC);
                 somaC = 0;

@@ -7,7 +7,10 @@ const MyComponent = ({valor, onChange}) => {
 	const handleChange = newValue => {
 		setChecked(newValue);
 		onChange(newValue);
-	}	
+	}
+	React.useEffect(()=>{
+		setChecked(valor)
+	},[valor]);	
 
 	return (
 		<View> 

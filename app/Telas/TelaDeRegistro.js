@@ -42,7 +42,13 @@ export default function TelaCamera({navigation}){
   }
   
   const adicionarTarefa = async() => {
-    let url = await RegistroService.uploadImagem(image);
+    let url;
+    if(image != null){
+      url = await RegistroService.uploadImagem(image);
+    }else{
+      url = '';
+    }
+    
     RegistroService.adicionar({...formValues, urlImagem: url});
     setFormValues({...formValues, 
       ...valoresIniciais});
@@ -221,11 +227,7 @@ export default function TelaCamera({navigation}){
             </View>
             
             <View style={{alignItems:'center', width: '100%'}}>
-              {image != null ? 
-                <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
-              : <View>
-                  <Text>   </Text>
-                </View>}
+              {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
             </View>
           </View>
           <TouchableOpacity onPress={() => adicionarTarefa()}>

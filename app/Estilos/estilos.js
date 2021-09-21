@@ -420,6 +420,16 @@ export default StyleSheet.create({
     borderRadius: 5,
     paddingLeft: 15,
   },
+  searchSection2: {
+    width: '60%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: 'green',
+    height: 46,
+    borderRadius: 5,
+    paddingLeft: 15,
+  },
   searchIcon: {
       padding: 10,
   },

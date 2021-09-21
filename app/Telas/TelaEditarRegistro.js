@@ -64,6 +64,27 @@ export default function TelaEditarRegistro({route, navigation}){
     setShow(true);
   };
 
+  const showImagem = () => {
+    if(formValues.urlImagem != '') {
+      const url = selecionarImagem();
+      return url;
+    }else{
+      return false;
+    }
+  };
+
+  const selecionarImagem = ()=>{
+    let url;
+    if(image){
+      url = image
+    }else{
+      url = formValues.urlImagem
+    }
+    return url;
+  }
+
+  const url = showImagem();
+
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
@@ -91,6 +112,7 @@ export default function TelaEditarRegistro({route, navigation}){
 
     setModalVisible(!modalVisible)
   }
+
   
   return (
     <View style={styles.container}>
@@ -168,7 +190,7 @@ export default function TelaEditarRegistro({route, navigation}){
             </View>
           </View>
           <View>
-            <Text style={Estilo.texto2}> {formValues.tipo == '2' ? "Para onde vai o dinheiro?" : "De onde está vindo o dinheiro?"}</Text>
+            <Text style={Estilo.texto2}> {formValues.tipo == '2' ? "De onde está saindo o dinheiro?" : "Para onde vai o dinheiro?"}</Text>
           </View>
           <View style={{ width: '100%'}}>
             <Radio2 valor={item.destino} onChange={(valor)=> setValue(valor, 'destino')}></Radio2>
@@ -223,10 +245,9 @@ export default function TelaEditarRegistro({route, navigation}){
             </View>
           </View>
           <View style={{alignItems:'center', width: '100%'}}>
-              {image ? 
-                <Image source={{ uri: image }} style={{ width: 200, height: 200 }} /> 
-                : 
-                <Image source={{ uri: formValues.urlImagem }} style={{ width: 200, height: 200 }}/>
+              { url ? 
+                <Image source={{ uri: url }} style={{ width: 200, height: 200 }} /> :
+                <View></View>
               }
           </View>
           <TouchableOpacity onPress={() => {atualizarRegistro(idRegistro)}}>
