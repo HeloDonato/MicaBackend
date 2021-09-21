@@ -165,7 +165,7 @@ export default function TelaCamera({navigation}){
             </View>
           </View>
           <View>
-            <Text style={Estilo.texto2}> {formValues.tipo == '2' ? "Para onde vai o dinheiro?" : "De onde está vindo o dinheiro?"}</Text>
+            <Text style={Estilo.texto2}> {formValues.tipo == '2' ? "De onde está saindo o dinheiro?" : "Para onde vai o dinheiro?"}</Text>
           </View>
           <View style={{ width: '100%'}}>
             <Radio2 onChange={(valor)=> setValue(valor, 'destino')}></Radio2>
@@ -221,7 +221,11 @@ export default function TelaCamera({navigation}){
             </View>
             
             <View style={{alignItems:'center', width: '100%'}}>
-              {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+              {image != null ? 
+                <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
+              : <View>
+                  <Text>   </Text>
+                </View>}
             </View>
           </View>
           <TouchableOpacity onPress={() => adicionarTarefa()}>

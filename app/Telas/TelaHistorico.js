@@ -71,7 +71,9 @@ export default function TelaHome({navigation}){
                       {shouldShow[key] ? (
                         <View style={{flexDirection:'column'}}>
                           <View style={{alignItems:'center', paddingTop: 15}}>
-                            <Image style={Estilo.comprovanteImg} source={{uri:listaRegistros[key].urlImagem}}></Image>
+                            { listaRegistros[key].urlImagem != '' ?
+                              <Image style={Estilo.comprovanteImg} source={{uri:listaRegistros[key].urlImagem}}></Image>
+                            : <View><Text>opa</Text></View>}
                           </View>
                           <View style={Estilo.infoHistorico}>
                             <TouchableOpacity onPress={()=>navigation.navigate('EditarRegistro', {item:listaRegistros[key], itemId:key})}>
@@ -87,7 +89,6 @@ export default function TelaHome({navigation}){
                               </View>
                             </TouchableOpacity>
                           </View>
-                          
                         </View>
                       ) : null}
                     </View>

@@ -49,6 +49,7 @@ export default{
                 somaC = 0;
         });
     },
+    
     somaReceitas(callback){
         var d = new Date();
         var n = d.getMonth() + 1;
