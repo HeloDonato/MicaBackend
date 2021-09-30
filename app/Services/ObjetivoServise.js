@@ -25,37 +25,30 @@ export default{
         var somaT = 0;
         
         let x =  Date.parse(objetivo.dataInicial);
-        let y = new Date(x).getMonth() + 1;
-        let y2 = new Date(x).getDate();
-        let y3 = parseInt(y2 + "" + y);
-
+        let y = new Date(x);
 
         let x1 =  Date.parse(objetivo.dataFinal);
-        let z = new Date(x1).getMonth() + 1;
-        let z2 = new Date(x1).getDate();
-        let z3 = parseInt(z2 + "" + z);
+        let z = new Date(x1);
 
         
         db.ref(`usuarios/${auth.currentUser.uid}/registros/`)
             .on('value', function (snapshot){
                snapshot.forEach(function(item){
                 let n =  Date.parse(item.val().data);
-                let n1 = new Date(n).getMonth() + 1;
-                let n2 = new Date(n).getDate();
-                let n3 = parseInt(n2 + "" + n1);
+                let n1 = new Date(n);
                    
-                if(n3 >= y3 && n3 <= z3){
+                if(n1 >= x && n1 <= z){
                     if (item.val().categoria == objetivo.categoria){
                        somaT += parseInt(item.val().valor);
                        console.log(item.val().categoria, objetivo.categoria)
                     }
                 }
-                console.log(n3);
+                console.log(n1);
 
                 });            
                 console.log(somaT);
-                console.log(y3);
-                console.log(z3);
+                console.log(y);
+                console.log(z);
                 if (callback)
                     callback(somaT);
 
