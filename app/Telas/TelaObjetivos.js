@@ -8,6 +8,7 @@ import ObjetivoService from '../Services/ObjetivoServise'
 export default function TelaHome({navigation}){
   const [shouldShow, setShouldShow] = useState({});
   const [listaObjetivos, setListaObjetivos] = useState({});
+  const [somaRegistro, setSomaRegistro] = useState(0);
 
   useEffect(()=>{
     registrarObservador();
@@ -21,9 +22,10 @@ export default function TelaHome({navigation}){
     let temp = {...shouldShow}
     temp[key] = !temp[key]
     setShouldShow(temp)
+    ObjetivoService.resultado(listaObjetivos[key], setSomaRegistro)
   }
 
-  const handleApagar = (id) => {
+  const handleApagar = (id) => {  
     ObjetivoService.remover(id);
   };
 
@@ -78,7 +80,7 @@ export default function TelaHome({navigation}){
                             <Text style={{fontWeight: 'bold', marginBottom: 25 }}>{dataFormatada(listaObjetivos[key].dataFinal)}</Text>
                           </View>
                           <View style={{flexDirection:'column', alignItems: 'center'}}>
-                            <Text style={{marginBottom: 5, fontWeight: 'bold'}}>item.atual/item.meta</Text>
+                            <Text style={{marginBottom: 5, fontWeight: 'bold'}}>{somaRegistro}/{listaObjetivos[key].valor}</Text>
             
                             <View style={{border: 1, height: 24, width: 297, marginBottom: 10, borderColor: '#000', flexDirection:'row', borderWidth: 3 }}>
                               <View style={{backgroundColor:'red', width:'90%'}}><Text></Text></View>
