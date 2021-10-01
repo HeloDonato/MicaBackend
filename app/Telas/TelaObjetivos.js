@@ -8,7 +8,7 @@ import ObjetivoService from '../Services/ObjetivoServise'
 export default function TelaHome({navigation}){
   const [shouldShow, setShouldShow] = useState({});
   const [listaObjetivos, setListaObjetivos] = useState({});
-  const [somaRegistro, setSomaRegistro] = useState(0);
+  const [somaRegistro, setSomaRegistro] = useState({});
 
   useEffect(()=>{
     registrarObservador();

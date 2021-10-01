@@ -45,8 +45,13 @@ export default function TelaEditarRegistro({route, navigation}){
     }))
   }
 
-  const atualizarRegistro = async() => {
-    let url = await RegistroService.uploadImagem(image);
+  const atualizarRegistro = async() => { 
+    let url;
+    if(image != null){
+      url = await RegistroService.uploadImagem(image);
+    }else{
+      url = '';
+    };
     RegistroService.atualizar(idRegistro, {...formValues, urlImagem: url})
       .then(()=>{
         navigation.navigate("Historico");
@@ -57,7 +62,6 @@ export default function TelaEditarRegistro({route, navigation}){
     const currentDate = selectedDate || date;
     setShow(Platform.OS === 'ios');
     setFormValues({...formValues, data:currentDate});
-    setDataSelecionada(true);
   };
 
   const showDatepicker = () => {
