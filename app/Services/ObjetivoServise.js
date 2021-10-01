@@ -25,23 +25,27 @@ export default{
         var somaT = 0;
         
         let x =  Date.parse(objetivo.dataInicial);
-        let y = new Date(x);
+        let y = new Date(x).getTime();
 
         let x1 =  Date.parse(objetivo.dataFinal);
-        let z = new Date(x1);
+        let z = new Date(x1).getTime();
 
         
         db.ref(`usuarios/${auth.currentUser.uid}/registros/`)
             .on('value', function (snapshot){
                snapshot.forEach(function(item){
                 let n =  Date.parse(item.val().data);
-                let n1 = new Date(n);
+                let n1 = new Date(n).getTime();
                    
                 if(n1 >= x && n1 <= z){
-                    if (item.val().categoria == objetivo.categoria){
+                    if (item.val().categoria == objetivo.categoria && item.val().tipo == '2'){
                        somaT += parseInt(item.val().valor);
                        console.log(item.val().categoria, objetivo.categoria)
                     }
+                    else if (item.val().categoria == objetivo.categoria && item.val().tipo == '1'){
+                        somaT += parseInt(item.val().valor);
+                        console.log(item.val().categoria, objetivo.categoria)
+                     }
                 }
                 console.log(n1);
 
