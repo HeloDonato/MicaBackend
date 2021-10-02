@@ -15,9 +15,7 @@ import { AntDesign } from '@expo/vector-icons';
 
 export default function TelaEditarRegistro({route, navigation}){
   const {item, itemId} = route.params;
-  item.data = new Date(item.data);
   const idRegistro = itemId;
-  const [dataFormatada, setDataFormatada] = useState('');
   const [show, setShow] = useState(false);
   const [image, setImage] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
@@ -33,9 +31,9 @@ export default function TelaEditarRegistro({route, navigation}){
   });
   
   useEffect(()=>{
-    setFormValues({...item});
-    let data = item.data;
-    setDataFormatada(((data.getDate() )) + "/" + ((data.getMonth() + 1)) + "/" + data.getFullYear()); 
+    setFormValues({...item,
+                  data: new Date(item.data),
+                });
   }, [item]);
   
   const setValue = (valor, name) => {
@@ -117,7 +115,11 @@ export default function TelaEditarRegistro({route, navigation}){
     setModalVisible(!modalVisible)
   }
 
-  
+  const dataFormatada = (dataI)=>{
+    let data = new Date(dataI);
+    let dataFormatada = (((data.getDate() )) + "/" + ((data.getMonth() + 1)) + "/" + data.getFullYear()); 
+    return <Text>{dataFormatada}</Text>
+  }
   return (
     <View style={styles.container}>
       <SafeAreaView style={[Estilo.container, formValues.tipo == '2' ? {backgroundColor:'#D03A31'} : {backgroundColor: '#4FC99A'}]}>
@@ -154,7 +156,7 @@ export default function TelaEditarRegistro({route, navigation}){
               <TouchableOpacity onPress={showDatepicker}>
                 <View style={Estilo.searchSection}>
                   <Text style={{fontSize: 25}}>
-                    {dataFormatada}
+                    {dataFormatada(formValues.data)}
                   </Text>
                   <SimpleLineIcons style={Estilo.searchIcon} name="calendar" size={24} color="gray"/>
                 </View>

@@ -21,9 +21,12 @@ export default{
     },
 
     async atualizar(id, {data, ...registro}){
-        return db.ref(`usuarios/${auth.currentUser.uid}/registros/`)
+       try{ return db.ref(`usuarios/${auth.currentUser.uid}/registros/`)
             .child(id)
             .update({...registro, data:data.toUTCString()});
+        }catch(error){
+            console.log(error);
+        }
     },
 
     async uploadImagem(imagem){

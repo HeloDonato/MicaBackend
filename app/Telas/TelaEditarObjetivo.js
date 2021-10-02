@@ -69,8 +69,8 @@ export default function TelaNovoObjetivo({route, navigation}){
   };
 
   const dataFormatada = (dataI)=>{
-    let data = new Date(dataI);
-    let dataFormatada = (((data.getDate() )) + "/" + ((data.getMonth() + 1)) + "/" + data.getFullYear()); 
+    let dataA = new Date(dataI);
+    let dataFormatada = (((dataA.getDate() )) + "/" + ((dataA.getMonth() + 1)) + "/" + dataA.getFullYear()); 
     return <Text>{dataFormatada}</Text>
   }
 

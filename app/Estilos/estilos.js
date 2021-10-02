@@ -469,6 +469,23 @@ export default StyleSheet.create({
     textAlign: "center",
     fontSize: 20
   },
+  modalBody: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 55,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 1,
+    marginTop: 250
+  },
+  
   modalText: {
     marginBottom: 15,
     textAlign: "center",
