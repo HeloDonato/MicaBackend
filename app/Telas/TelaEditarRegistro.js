@@ -13,23 +13,25 @@ import { useEffect } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import { AntDesign } from '@expo/vector-icons';
 
+
+const valoresIniciais = {
+  valor: '',
+  tipo: '1',
+  descricao: '',
+  dataInicial: new Date(),
+  dataFinal: new Date(),
+  categoria: 'moradia',
+  urlImagem: ''
+}
+
 export default function TelaEditarRegistro({route, navigation}){
   const {item, itemId} = route.params;
   const idRegistro = itemId;
   const [show, setShow] = useState(false);
   const [image, setImage] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
+  const [formValues, setFormValues] = useState(valoresIniciais);
 
-  const [formValues, setFormValues] = useState({
-    valor: '',
-    tipo: '1',
-    descricao: '',
-    data: new Date(),
-    destino: '0',
-    categoria: '',
-    urlImagem: ''
-  });
-  
   useEffect(()=>{
     setFormValues({...item,
                   data: new Date(item.data),
@@ -44,14 +46,19 @@ export default function TelaEditarRegistro({route, navigation}){
   }
 
   const atualizarRegistro = async() => { 
-    let url;
+    let url = null;
     if(image != null){
       url = await RegistroService.uploadImagem(image);
     }else{
-      url = '';
+     if (formValues.urlImagem != '' )
+        url = formValues.urlImagem
+      else  
+        url = '';
     };
     RegistroService.atualizar(idRegistro, {...formValues, urlImagem: url})
       .then(()=>{
+        setFormValues({...formValues, ...valoresIniciais});
+        setImage(null);
         navigation.navigate("Historico");
       });
   };

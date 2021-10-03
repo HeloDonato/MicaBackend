@@ -4,6 +4,7 @@ import { SafeAreaView,Text, View, Image, TouchableOpacity, ScrollView, Modal} fr
 import Estilo from '../Estilos/estilos'
 import 'react-native-gesture-handler';
 import ObjetivoService from '../Services/ObjetivoServise'
+import Barra from '../Componentes/Barra';
 
 export default function TelaHome({navigation}){
   const [shouldShow, setShouldShow] = useState({});
@@ -54,11 +55,11 @@ export default function TelaHome({navigation}){
       else if(meta >= 80){
         return <Text>Objetivo concluido, continue assim!!</Text>
       }
-      else if(meta < 80){
+      else if(meta < 80 && meta > 60){
         return <Text>Quase lá!!</Text>
       }
-      else if (meta < 20){
-        return <Text>Objetivo fracassado</Text>
+      else if (meta < 40){
+        return <Text>Objetivo fracassado!</Text>
       }
     }
   };
@@ -132,13 +133,11 @@ export default function TelaHome({navigation}){
                           </View>
                           <View style={{flexDirection:'column', alignItems: 'center'}}>
                             <Text style={{marginBottom: 5, fontWeight: 'bold'}}>{somaRegistro}/{listaObjetivos[key].valor}</Text>
-            
-                            <View style={{border: 1, height: 24, width: 297, marginBottom: 10, borderColor: '#000', flexDirection:'row', borderWidth: 3 }}>
-                              <View style={{backgroundColor:'red', width:'90%'}}><Text></Text></View>
-                              <View style={{backgroundColor:'white', width:'10%'}}><Text></Text></View>
-                            </View>
-                            <Text style={{marginBottom: 25}}> {limiteD(key)} </Text>
+                            {limiteD(key)} 
                           </View>
+                            <View style={{margin: 5 }}>
+                              <Barra valor={somaRegistro} valor2={listaObjetivos[key].valor} valor3={listaObjetivos[key].tipo}> </Barra>
+                            </View>
                           <View style={{flexDirection:'row', alignContent: 'space-around', alignItems: 'flex-start'}}>
                             <TouchableOpacity onPressOut={()=>teste(false)} onPress={()=>navigation.navigate('EditarObjetivo', {item:listaObjetivos[key], itemId:key})}>
                               <View style={{flexDirection:'row', alignItems: 'center', marginRight: 20}}>
